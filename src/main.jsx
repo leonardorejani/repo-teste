@@ -19,15 +19,7 @@ if (!window.storage) {
   }
 }
 
-// Registrar Service Worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/acervo_digital_pessoal/sw.js')
-      .catch(() => {
-        // PWA service worker will be registered by vite-plugin-pwa
-      })
-  })
-}
+// Service Worker é registrado automaticamente pelo vite-plugin-pwa
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

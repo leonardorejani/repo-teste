@@ -3,7 +3,7 @@ import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
 export default defineConfig({
-  base: '/acervo_digital_pessoal/',
+  base: './',
   plugins: [
     react(),
     VitePWA({
@@ -17,8 +17,8 @@ export default defineConfig({
         background_color: '#00407a',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/acervo_digital_pessoal/',
-        start_url: '/acervo_digital_pessoal/',
+        scope: './',
+        start_url: './',
         icons: [
           {
             src: 'icon-192.png',
