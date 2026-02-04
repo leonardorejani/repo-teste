@@ -901,7 +901,7 @@ export default function BibliotecaDigital() {
                 >
                   <div className="flex items-center gap-2">
                     <span>Inicial</span>
-                    <span className="px-2 py-1 rounded-md text-sm font-bold" style={{ backgroundColor: '#4fc3f7', color: '#00407a' }}>"{letter}"</span>
+                    <span className="px-2 py-1 rounded-md text-sm font-bold" style={{ backgroundColor: '#4fc3f7', color: '#00407a' }}>{letter}</span>
                   </div>
                   <span className="px-2 py-1 rounded-md text-xs font-bold" style={{ backgroundColor: '#4fc3f7', color: '#00407a' }}>{groupedByLetter[letter].length} livros</span>
                 </button>
