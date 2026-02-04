@@ -68,7 +68,11 @@ const PRATELEIRAS_PREDEFINIDAS = [
   "PRATELEIRA S",
   "PRATELEIRA T",
   "PRATELEIRA U",
-  "PRATELEIRA V"
+  "PRATELEIRA V",
+  "PRATELEIRA W",
+  "PRATELEIRA X",
+  "PRATELEIRA Y",
+  "PRATELEIRA Z"
 ];
 
 // Componente Toast para notificações
@@ -737,11 +741,17 @@ export default function BibliotecaDigital() {
 
       {/* Header */}
       <div className="px-4 pt-12 pb-4" style={{ backgroundColor: '#00407a' }}>
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold text-white text-center">Acervo</h1>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-3xl font-bold text-white">Acervo</h1>
+          <button
+            onClick={() => setShowMenu(true)}
+            className="p-2 bg-white bg-opacity-20 rounded-lg"
+          >
+            <Menu size={22} className="text-white" />
+          </button>
         </div>
 
-        {/* Filtros + Menu */}
+        {/* Filtros + Modos Visualização */}
         <div className="flex gap-2 mb-3">
           <button
             onClick={() => setShowFiltros(!showFiltros)}
@@ -750,10 +760,14 @@ export default function BibliotecaDigital() {
             <Filter size={16} fill={temFiltrosAtivos ? 'white' : 'none'} /> Filtros
           </button>
           <button
-            onClick={() => setShowMenu(true)}
-            className="p-2 px-4 rounded-lg bg-white bg-opacity-20"
+            onClick={toggleViewMode}
+            className="flex-1 p-2 rounded-lg bg-white bg-opacity-20 flex items-center justify-center gap-2 text-white text-sm"
           >
-            <Menu size={18} className="text-white" />
+            {(() => {
+              const ViewIcon = viewModeConfig[viewMode].icon;
+              return <ViewIcon size={16} />;
+            })()}
+            <span>{viewModeConfig[viewMode].label}</span>
           </button>
         </div>
 
@@ -872,18 +886,6 @@ export default function BibliotecaDigital() {
       {/* Content */}
       <div className="flex-1 relative overflow-x-hidden">
         <div ref={listRef} className={`h-full overflow-y-auto px-4 py-4 ${densidadeClasses[config.densidade]}`}>
-        {/* Seletor de Modo de Visualização */}
-        <button
-          onClick={toggleViewMode}
-          className="w-full py-2 px-3 mb-3 text-sm font-semibold text-white rounded-lg flex items-center justify-center gap-2"
-          style={{ backgroundColor: '#00407a' }}
-        >
-          {(() => {
-            const ViewIcon = viewModeConfig[viewMode].icon;
-            return <ViewIcon size={18} />;
-          })()}
-          <span>{viewModeConfig[viewMode].label}</span>
-        </button>
         {livrosFiltrados.length === 0 ? (
           <div className="text-center py-12" style={{ color: themeColors.textSecondary }}>
             {searchTerm || temFiltrosAtivos ? 'Nenhum livro encontrado com esses filtros' : 'Adicione seu primeiro livro'}
@@ -1047,11 +1049,6 @@ export default function BibliotecaDigital() {
             </div>
           );
         })()}
-      </div>
-
-      {/* Footer */}
-      <div className="flex-shrink-0 px-4 pt-2 border-t text-center text-xs" style={{ backgroundColor: themeColors.bgSecondary, borderColor: themeColors.border, color: themeColors.textSecondary, paddingBottom: 'max(8px, env(safe-area-inset-bottom))' }}>
-        <div className="whitespace-nowrap overflow-hidden text-ellipsis">{livros.length} livros | {prateleirasUnicas.length} prateleiras | {livros.filter(l => l.status === 'emprestado').length} emprestados{livrosFiltrados.length !== livros.length ? ` | Exibindo ${livrosFiltrados.length}` : ''}</div>
       </div>
 
       {/* Modal Add/Edit */}
