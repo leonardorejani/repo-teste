@@ -740,7 +740,7 @@ export default function BibliotecaDigital() {
       {toast && <Toast message={toast.message} type={toast.type} onClose={() => setToast(null)} key={toast.key} />}
 
       {/* Header */}
-      <div className="px-4 pt-16 pb-4" style={{ backgroundColor: '#00407a' }}>
+      <div className="px-4 pb-4" style={{ backgroundColor: '#00407a', paddingTop: 'calc(env(safe-area-inset-top, 0px) + 16px)' }}>
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-3xl font-bold text-white">Acervo</h1>
           <button
