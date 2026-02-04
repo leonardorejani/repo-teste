@@ -217,8 +217,8 @@ export default function BibliotecaDigital() {
 
   const fontSizeClasses = {
     small: 'text-sm',
-    medium: 'text-base',
-    large: 'text-lg'
+    medium: 'text-lg',
+    large: 'text-2xl'
   };
 
   const densidadeClasses = {
@@ -735,7 +735,7 @@ export default function BibliotecaDigital() {
 
       {/* Header */}
       <div className="px-4 pt-12 pb-4" style={{ backgroundColor: '#00407a' }}>
-        <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center justify-between mb-6">
           <h1 className="text-3xl font-bold text-white">Acervo</h1>
           <button
             onClick={() => setShowMenu(true)}
@@ -878,7 +878,7 @@ export default function BibliotecaDigital() {
       </div>
 
       {/* Content */}
-      <div className="flex-1 relative overflow-hidden">
+      <div className="flex-1 relative overflow-x-hidden">
         <div ref={listRef} className={`h-full overflow-y-auto px-4 py-4 ${densidadeClasses[config.densidade]}`}>
         {livrosFiltrados.length === 0 ? (
           <div className="text-center py-12" style={{ color: themeColors.textSecondary }}>
@@ -921,87 +921,70 @@ export default function BibliotecaDigital() {
             ))}
           </div>
         ) : viewMode === 'grid' ? (
-          // GRID POR PRATELEIRA
+          // GRID - Livros soltos com capas, barra azul entre prateleiras
           <div className="pr-5">
-            {Object.entries(livrosPorPrateleira).sort().map(([prateleira, livrosDaPrateleira]) => {
+            {Object.entries(livrosPorPrateleira).sort().map(([prateleira, livrosDaPrateleira], pratIndex) => {
               const pratLetra = prateleira.replace('PRATELEIRA ', '').charAt(0);
               return (
-              <div key={prateleira} id={`section-grid-${pratLetra}`} className="mb-2">
-                <button
-                  onClick={() => toggleSection(`grid-${prateleira}`)}
-                  className="w-full py-2 px-3 text-sm font-semibold text-white shadow-md rounded-lg flex items-center justify-between"
-                  style={{ backgroundColor: '#00407a' }}
+              <div key={prateleira} id={`section-grid-${pratLetra}`}>
+                {/* Barra azul separadora */}
+                <div
+                  className="py-2 px-3 text-sm font-semibold text-white flex items-center justify-between mb-3"
+                  style={{ backgroundColor: '#00407a', marginTop: pratIndex > 0 ? '16px' : '0' }}
                 >
-                  <div className="flex items-center gap-2">
-                    <span>{prateleira}</span>
-                    <span className="px-2 py-0.5 rounded-md text-xs font-bold" style={{ backgroundColor: '#4fc3f7', color: '#00407a' }}>{livrosDaPrateleira.length}</span>
-                  </div>
-                  <ChevronDown size={16} className={`transition-transform ${expandedSections[`grid-${prateleira}`] ? 'rotate-180' : ''}`} />
-                </button>
-                {expandedSections[`grid-${prateleira}`] && (
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mt-2 pb-2">
-                    {livrosDaPrateleira.map(livro => (
-                      <LivroCardGrid
-                        key={livro.id}
-                        livro={livro}
-                        onClick={setDetalheLivro}
-                        statusConfig={statusConfig}
-                        themeColors={themeColors}
-                      />
-                    ))}
-                  </div>
-                )}
+                  <span>{prateleira}</span>
+                  <span className="px-2 py-0.5 rounded-md text-xs font-bold" style={{ backgroundColor: '#4fc3f7', color: '#00407a' }}>{livrosDaPrateleira.length}</span>
+                </div>
+                {/* Grid de capas */}
+                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 pb-2">
+                  {livrosDaPrateleira.map(livro => (
+                    <LivroCardGrid
+                      key={livro.id}
+                      livro={livro}
+                      onClick={setDetalheLivro}
+                      statusConfig={statusConfig}
+                      themeColors={themeColors}
+                    />
+                  ))}
+                </div>
               </div>
             ); })}
           </div>
         ) : (
-          // POR PRATELEIRA
-          <div className={`${densidadeClasses[config.densidade]} pr-5`}>
-            {Object.entries(livrosPorPrateleira).sort().map(([prateleira, livrosDaPrateleira]) => {
-              const pratLetra = prateleira.replace('PRATELEIRA ', '').charAt(0);
-              return (
-              <div key={prateleira} id={`section-prat-${pratLetra}`} className="mb-2">
-                <button
-                  onClick={() => toggleSection(`prat-${prateleira}`)}
-                  className="w-full py-2 px-3 text-sm font-semibold text-white shadow-md rounded-lg flex items-center justify-between"
-                  style={{ backgroundColor: '#00407a' }}
-                >
-                  <div className="flex items-center gap-2">
-                    <span>{prateleira}</span>
-                    <span className="px-2 py-0.5 rounded-md text-xs font-bold" style={{ backgroundColor: '#4fc3f7', color: '#00407a' }}>{livrosDaPrateleira.length}</span>
-                  </div>
-                  <ChevronDown size={16} className={`transition-transform ${expandedSections[`prat-${prateleira}`] ? 'rotate-180' : ''}`} />
-                </button>
-                {expandedSections[`prat-${prateleira}`] && (
-                  <div className="rounded-b-lg p-4 shadow" style={{ backgroundColor: themeColors.card }}>
-                    <div className={densidadeClasses[config.densidade]}>
-                      {livrosDaPrateleira.map((livro, index) => (
-                        <LivroCard
-                          key={livro.id}
-                          livro={livro}
-                          onEdit={startEdit}
-                          onToggleFavorito={toggleFavorito}
-                          onEmprestar={iniciarEmprestimo}
-                          onShowHistorico={(l) => { setHistoricoLivro(l); setShowHistoricoModal(true); }}
-                          onShowNotas={(l) => { setSelectedLivroNotas(l); setShowNotasModal(true); }}
-                          statusConfig={statusConfig}
-                          compact
-                          altBg={index % 2 === 1}
-                          themeColors={themeColors}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            ); })}
+          // PRATELEIRA - Visão geral com retângulos
+          <div className="pr-5">
+            <div className="text-center mb-6">
+              <h2 className="text-xl font-bold py-3 px-6 inline-block rounded-lg" style={{ backgroundColor: '#00407a', color: 'white' }}>
+                PRATELEIRAS
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+              {Object.entries(livrosPorPrateleira).sort().map(([prateleira, livrosDaPrateleira]) => {
+                const pratLetra = prateleira.replace('PRATELEIRA ', '').charAt(0);
+                return (
+                  <button
+                    key={prateleira}
+                    id={`section-prat-${pratLetra}`}
+                    onClick={() => {
+                      setFiltros({...filtros, prateleira: prateleira});
+                      setViewMode('lista');
+                    }}
+                    className="p-4 rounded-lg text-center font-bold transition-all hover:scale-105 hover:shadow-lg"
+                    style={{ backgroundColor: themeColors.card, border: `2px solid #00407a`, color: themeColors.text }}
+                  >
+                    <div className="text-2xl" style={{ color: '#00407a' }}>{pratLetra}</div>
+                    <div className="text-xs mt-1" style={{ color: themeColors.textSecondary }}>{livrosDaPrateleira.length} livros</div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         )}
         </div>
 
-        {/* Índice Alfabético Lateral */}
-        {livrosFiltrados.length > 0 && (() => {
-          const prefix = viewMode === 'lista' ? 'section-lista-' : viewMode === 'grid' ? 'section-grid-' : 'section-prat-';
+        {/* Índice Alfabético Lateral - não aparece no modo prateleira */}
+        {livrosFiltrados.length > 0 && viewMode !== 'prateleira' && (() => {
+          const prefix = viewMode === 'lista' ? 'section-lista-' : 'section-grid-';
           const letters = viewMode === 'lista'
             ? Object.keys(groupedByLetter).sort()
             : [...new Set(Object.keys(livrosPorPrateleira).map(p => p.replace('PRATELEIRA ', '').charAt(0)))].sort();
@@ -1012,7 +995,6 @@ export default function BibliotecaDigital() {
           };
 
           const handleTouchMove = (e) => {
-            e.preventDefault();
             const touch = e.touches[0];
             const el = document.elementFromPoint(touch.clientX, touch.clientY);
             if (el?.dataset?.letter) scrollToLetter(el.dataset.letter);
@@ -1021,10 +1003,9 @@ export default function BibliotecaDigital() {
           return (
             <div
               className="absolute right-0 top-0 bottom-0 flex flex-col items-center justify-center z-40 px-1 select-none"
-              style={{ touchAction: 'none' }}
+              style={{ touchAction: 'pan-y' }}
               onTouchMove={handleTouchMove}
               onTouchStart={(e) => {
-                e.preventDefault();
                 const touch = e.touches[0];
                 const el = document.elementFromPoint(touch.clientX, touch.clientY);
                 if (el?.dataset?.letter) scrollToLetter(el.dataset.letter);
@@ -1047,9 +1028,9 @@ export default function BibliotecaDigital() {
       </div>
 
       {/* Footer */}
-      <div className="px-4 py-3 border-t text-center text-xs" style={{ backgroundColor: themeColors.bgSecondary, borderColor: themeColors.border, color: themeColors.textSecondary }}>
-        <div>{livros.length} livros | {prateleirasUnicas.length} prateleiras | {livros.filter(l => l.status === 'emprestado').length} emprestados{livrosFiltrados.length !== livros.length ? ` | Exibindo ${livrosFiltrados.length}` : ''}</div>
-        <div className="mt-1">Todos os direitos reservados &bull; Leonardo Rejani</div>
+      <div className="flex-shrink-0 px-4 py-2 border-t text-center text-xs" style={{ backgroundColor: themeColors.bgSecondary, borderColor: themeColors.border, color: themeColors.textSecondary }}>
+        <div className="whitespace-nowrap overflow-hidden text-ellipsis">{livros.length} livros | {prateleirasUnicas.length} prateleiras | {livros.filter(l => l.status === 'emprestado').length} emprestados{livrosFiltrados.length !== livros.length ? ` | Exibindo ${livrosFiltrados.length}` : ''}</div>
+        <div className="mt-1">Leonardo Rejani</div>
       </div>
 
       {/* Modal Add/Edit */}
@@ -1330,7 +1311,7 @@ export default function BibliotecaDigital() {
 
             {/* Ordenação */}
             <div>
-              <h3 className="font-bold mb-3" style={{ color: themeColors.text }}>📊 Ordenação Padrão</h3>
+              <h3 className="font-bold mb-3" style={{ color: themeColors.text }}>Ordenação Padrão</h3>
               <select value={config.ordenacao} onChange={(e) => saveConfig({...config, ordenacao: e.target.value})} className="w-full p-3 border rounded" style={{ backgroundColor: themeColors.card, borderColor: themeColors.border, color: themeColors.text }}>
                 <option value="titulo-asc">Título (A-Z)</option>
                 <option value="titulo-desc">Título (Z-A)</option>
@@ -1347,7 +1328,7 @@ export default function BibliotecaDigital() {
 
             {/* Dados */}
             <div>
-              <h3 className="font-bold mb-3 text-red-600">🗑️ Gerenciar Dados</h3>
+              <h3 className="font-bold mb-3 text-red-600">Gerenciar Dados</h3>
               <div className="space-y-2">
                 <div className="p-3 border rounded" style={{ borderColor: themeColors.border }}>
                   <p className="text-sm mb-2" style={{ color: themeColors.textSecondary }}>

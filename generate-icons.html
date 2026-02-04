@@ -50,56 +50,12 @@
       roundRect(ctx, 0, 0, size, size, size * 0.125);
       ctx.fill();
 
-      // Book
-      const scale = size / 512;
-      ctx.save();
-      ctx.translate(96 * scale, 80 * scale);
-
-      // Left page
-      ctx.fillStyle = 'rgba(255,255,255,0.9)';
-      ctx.beginPath();
-      ctx.moveTo(160 * scale, 0);
-      ctx.lineTo(160 * scale, 320 * scale);
-      ctx.lineTo(0, 280 * scale);
-      ctx.lineTo(0, 40 * scale);
-      ctx.closePath();
-      ctx.fill();
-
-      // Right page
-      ctx.fillStyle = 'rgba(255,255,255,0.7)';
-      ctx.beginPath();
-      ctx.moveTo(160 * scale, 0);
-      ctx.lineTo(160 * scale, 320 * scale);
-      ctx.lineTo(320 * scale, 280 * scale);
-      ctx.lineTo(320 * scale, 40 * scale);
-      ctx.closePath();
-      ctx.fill();
-
-      // Spine
-      ctx.fillStyle = '#4fc3f7';
-      ctx.fillRect(155 * scale, 0, 10 * scale, 320 * scale);
-
-      // Lines on left page
-      ctx.strokeStyle = 'rgba(0,64,122,0.3)';
-      ctx.lineWidth = 8 * scale;
-      ctx.lineCap = 'round';
-
-      [[30, 80, 130, 90], [30, 120, 130, 130], [30, 160, 130, 170]].forEach(([x1, y1, x2, y2]) => {
-        ctx.beginPath();
-        ctx.moveTo(x1 * scale, y1 * scale);
-        ctx.lineTo(x2 * scale, y2 * scale);
-        ctx.stroke();
-      });
-
-      // Lines on right page
-      [[190, 90, 290, 80], [190, 130, 290, 120]].forEach(([x1, y1, x2, y2]) => {
-        ctx.beginPath();
-        ctx.moveTo(x1 * scale, y1 * scale);
-        ctx.lineTo(x2 * scale, y2 * scale);
-        ctx.stroke();
-      });
-
-      ctx.restore();
+      // Letter "A"
+      ctx.fillStyle = '#ffffff';
+      ctx.font = `bold ${size * 0.7}px Arial, Helvetica, sans-serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('A', size / 2, size / 2 + size * 0.05);
     }
 
     function roundRect(ctx, x, y, w, h, r) {
