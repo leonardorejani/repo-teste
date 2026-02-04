@@ -852,8 +852,7 @@ export default function BibliotecaDigital() {
               </button>
             </div>
             <div className="p-4 border-t text-center" style={{ borderColor: themeColors.border }}>
-              <span className="text-xs" style={{ color: themeColors.textSecondary }}>v1.0.0</span>
-              <div className="text-xs mt-1" style={{ color: themeColors.textSecondary }}>Todos os direitos reservados</div>
+              <span className="text-xs" style={{ color: themeColors.textSecondary }}>Leonardo Rejani | v1.0.0</span>
             </div>
           </div>
         </div>
