@@ -1,88 +1,65 @@
 # Biblioteca Digital - Leonardo Rejani
 
-PWA (Progressive Web App) para gerenciamento de acervo pessoal de livros.
+PWA (Progressive Web App) para gerenciamento de acervo pessoal de livros. Organize, cataloge e acompanhe suas leituras diretamente do navegador ou como app instalado no celular — funciona 100% offline.
 
-## Instalação
+## Funcionalidades
+
+- **Cadastro completo de livros** com título, autor, editora, ano, ISBN, categoria, prateleira, páginas, idioma e capa (URL)
+- **3 modos de visualização**: Lista, Grid (capas) e Prateleira (retângulos)
+- **Organização por prateleiras e categorias** com índice alfabético lateral
+- **Controle de empréstimos** com histórico completo
+- **Sistema de avaliação** por estrelas e favoritos
+- **Anotações pessoais** por livro
+- **Importação/Exportação CSV** para backup e migração
+- **Busca rápida** por título, autor ou editora
+- **Filtros combinados** por prateleira, categoria, status, autor e favoritos
+- **Modo escuro** com alternância automática
+- **Configurações personalizáveis**: densidade de layout, tamanho de fonte, ordenação padrão
+- **Funciona 100% offline** — dados salvos no LocalStorage do dispositivo
+
+## Como iniciar
 
 ```bash
 # Instalar dependências
 npm install
 
-# Gerar ícones (abra no navegador e baixe)
-# Abra generate-icons.html no navegador
-
-# Desenvolvimento
+# Iniciar servidor de desenvolvimento
 npm run dev
+```
 
+O app estará disponível em `http://localhost:5173/acervo_digital_pessoal/`.
+
+## Como configurar
+
+Acesse o menu (canto superior direito) e abra **Configurações** para ajustar:
+
+- **Modo escuro**: alterna entre tema claro e escuro
+- **Densidade do layout**: compacto, normal ou espaçoso
+- **Tamanho da fonte**: pequeno, médio ou grande
+- **Ordenação padrão**: título, autor, ano ou avaliação
+
+## Build e Deploy
+
+```bash
 # Build para produção
 npm run build
 
-# Preview do build
+# Preview local do build
 npm run preview
 ```
 
-## Gerando os Ícones
+O deploy é feito automaticamente via **GitHub Actions** a cada push na branch `main`. O app é publicado em GitHub Pages.
 
-Antes de fazer o build, você precisa gerar os ícones PNG:
+### Instalando no celular
 
-1. **Opção 1 - Navegador (Recomendado):**
-   - Abra o arquivo `generate-icons.html` no navegador
-   - Clique nos botões para baixar cada ícone
-   - Mova os arquivos para a pasta `public/`
-
-2. **Opção 2 - Node.js:**
-   ```bash
-   npm install canvas
-   node scripts/generate-icons.js
-   ```
-
-## Deploy no GitHub Pages
-
-1. Crie um repositório no GitHub chamado `biblioteca-digital`
-
-2. Inicialize o git e faça push:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit"
-   git branch -M main
-   git remote add origin https://github.com/SEU-USUARIO/biblioteca-digital.git
-   git push -u origin main
-   ```
-
-3. No GitHub, vá em **Settings > Pages**:
-   - Source: GitHub Actions
-
-4. O deploy será automático a cada push na branch `main`
-
-5. Acesse: `https://SEU-USUARIO.github.io/biblioteca-digital/`
-
-## Instalando no iPhone
-
-1. Acesse a URL do GitHub Pages no Safari
-2. Toque no botão **Compartilhar** (ícone de quadrado com seta)
-3. Selecione **"Adicionar à Tela de Início"**
-4. Confirme o nome e toque em **Adicionar**
-
-O app aparecerá na tela inicial como um app nativo!
-
-## Funcionalidades
-
-- Cadastro completo de livros com múltiplos campos
-- Organização por prateleiras e categorias
-- Controle de empréstimos com histórico
-- Sistema de avaliação (estrelas)
-- Favoritos
-- Anotações pessoais
-- Importação/Exportação CSV
-- Modo escuro
-- Busca rápida
-- Funciona 100% offline (dados salvos no dispositivo)
+1. Acesse a URL do GitHub Pages no navegador
+2. Toque em **Compartilhar** → **Adicionar à Tela de Início**
+3. O app aparecerá como um app nativo na tela inicial
 
 ## Tecnologias
 
-- React 18
-- Vite
-- Tailwind CSS
-- Lucide Icons
-- PWA (vite-plugin-pwa)
+- **React 18** — Interface de usuário
+- **Vite 5** — Build tool e dev server
+- **Tailwind CSS 3** — Estilização utilitária
+- **Lucide React** — Ícones
+- **vite-plugin-pwa** — Service worker e manifesto PWA

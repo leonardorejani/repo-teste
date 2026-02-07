@@ -714,7 +714,7 @@ export default function BibliotecaDigital() {
   const maxCountLista = Math.max(...Object.values(groupedByLetter).map(arr => arr.length), 0);
   const maxCountPrateleira = Math.max(...Object.values(livrosPorPrateleira).map(arr => arr.length), 0);
   const maxCount = Math.max(maxCountLista, maxCountPrateleira);
-  const badgeMinWidth = `${String(maxCount).length * 0.6 + 3.5}em`;
+  const badgeMinWidth = '6em';
 
   const temFiltrosAtivos = filtros.prateleira || filtros.categoria || filtros.status || filtros.autor || filtros.favorito;
 
@@ -911,7 +911,7 @@ export default function BibliotecaDigital() {
                     <span>Título com inicial</span>
                     <span className="px-2 py-1 rounded-md text-sm font-bold" style={{ backgroundColor: '#4fc3f7', color: '#00407a' }}>{letter}</span>
                   </div>
-                  <span className="px-2 py-1 rounded-md text-xs font-bold text-right" style={{ backgroundColor: '#4fc3f7', color: '#00407a', minWidth: badgeMinWidth, display: 'inline-block' }}>{groupedByLetter[letter].length} livros</span>
+                  <span className="px-2 py-1 rounded-md text-xs font-bold text-center" style={{ backgroundColor: '#4fc3f7', color: '#00407a', minWidth: badgeMinWidth, display: 'inline-block' }}>{groupedByLetter[letter].length} livros</span>
                 </button>
                 {expandedSections[`lista-${letter}`] && (
                   <div className={`mt-1 ${densidadeClasses[config.densidade]}`}>
@@ -946,7 +946,7 @@ export default function BibliotecaDigital() {
                   style={{ backgroundColor: '#00407a', marginTop: pratIndex > 0 ? '16px' : '0' }}
                 >
                   <span>{prateleira}</span>
-                  <span className="px-2 py-1 rounded-md text-xs font-bold text-right" style={{ backgroundColor: '#4fc3f7', color: '#00407a', minWidth: badgeMinWidth, display: 'inline-block' }}>{livrosDaPrateleira.length} livros</span>
+                  <span className="px-2 py-1 rounded-md text-xs font-bold text-center" style={{ backgroundColor: '#4fc3f7', color: '#00407a', minWidth: badgeMinWidth, display: 'inline-block' }}>{livrosDaPrateleira.length} livros</span>
                 </div>
                 {/* Grid de capas - sempre visível */}
                 <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-3 pb-2">
@@ -981,7 +981,7 @@ export default function BibliotecaDigital() {
                       <span className="px-2 py-1 rounded-md text-sm font-bold" style={{ backgroundColor: '#4fc3f7', color: '#00407a' }}>{pratLetra}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-1 rounded-md text-xs font-bold text-right" style={{ backgroundColor: '#4fc3f7', color: '#00407a', minWidth: badgeMinWidth, display: 'inline-block' }}>{livrosDaPrateleira.length} livros</span>
+                      <span className="px-2 py-1 rounded-md text-xs font-bold text-center" style={{ backgroundColor: '#4fc3f7', color: '#00407a', minWidth: badgeMinWidth, display: 'inline-block' }}>{livrosDaPrateleira.length} livros</span>
                       <ChevronDown size={16} className={`transition-transform ${isExpanded ? 'rotate-180' : ''}`} />
                     </div>
                   </button>
@@ -1010,8 +1010,8 @@ export default function BibliotecaDigital() {
         </div>
 
         {/* Índice Alfabético Lateral - não aparece no modo prateleira */}
-        {livrosFiltrados.length > 0 && viewMode !== 'prateleira' && (() => {
-          const prefix = viewMode === 'lista' ? 'section-lista-' : 'section-grid-';
+        {livrosFiltrados.length > 0 && (() => {
+          const prefix = viewMode === 'lista' ? 'section-lista-' : viewMode === 'grid' ? 'section-grid-' : 'section-prat-';
           const letters = viewMode === 'lista'
             ? Object.keys(groupedByLetter).sort()
             : [...new Set(Object.keys(livrosPorPrateleira).map(p => p.replace('PRATELEIRA ', '').charAt(0)))].sort();
@@ -1804,9 +1804,9 @@ function LivroCardGrid({ livro, onClick, statusConfig, themeColors }) {
 // Componente Modal
 function Modal({ children, onClose, themeColors, large = false }) {
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-start justify-center p-4 z-50 overflow-y-auto animate-fade-in" onClick={onClose}>
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 overflow-y-auto animate-fade-in" onClick={onClose}>
       <div
-        className={`rounded-lg ${large ? 'max-w-3xl' : 'max-w-2xl'} w-full my-8 p-6 animate-slide-up`}
+        className={`rounded-lg ${large ? 'max-w-3xl' : 'max-w-2xl'} w-full my-8 p-6 animate-slide-up max-h-[90vh] overflow-y-auto`}
         style={{ backgroundColor: themeColors?.bgSecondary || '#ffffff' }}
         onClick={(e) => e.stopPropagation()}
       >
